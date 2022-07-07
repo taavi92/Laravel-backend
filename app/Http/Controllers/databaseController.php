@@ -55,6 +55,10 @@ class databaseController extends Controller
 
         $results = DB::select('select * from words where wordLength = (?)', [$wordLength]);
 
+        if ($results === null){
+            return [];
+        }
+
 
         foreach ($results as $row){
 
@@ -72,6 +76,12 @@ class databaseController extends Controller
         $word = $request->input('word');
         $matchingLenghtWords = $this->findWordsByLenght(strlen($word));
         $anagrams = [];
+
+
+        if (count($matchingLenghtWords)===0){
+            return response()->json(['msg'=>"NO matches"]);
+        }
+
         foreach ($matchingLenghtWords as $anagram){
             if ($this->isAnagram($word, $anagram)){
                 $anagrams[] = $anagram;
