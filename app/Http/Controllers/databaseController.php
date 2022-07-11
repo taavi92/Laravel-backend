@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+include 'app/algorithm/anagramAlgorithm.php';
 
 
 
@@ -83,7 +84,10 @@ class databaseController extends Controller
         }
 
         foreach ($matchingLenghtWords as $anagram){
-            if ($this->isAnagram($word, $anagram)){
+//            if ($this->isAnagram($word, $anagram)){
+//                $anagrams[] = $anagram;
+//            }
+            if (isAnagram($word, $anagram)){
                 $anagrams[] = $anagram;
             }
 
@@ -99,23 +103,23 @@ class databaseController extends Controller
     }
 
 
-    function isAnagram($string_1, $string_2) : bool
-    {
-        $string_1 = strtolower($string_1);
-        $string_2 = strtolower($string_2);
-        $string_11 = str_replace("-", "",$string_1);
-        $string_22 = str_replace("-", "",$string_2);
-
-
-
-        if (count_chars($string_11, 1) == count_chars($string_22, 1)){
-
-            return true;
-        }
-        else{
-            return false;
-        }
-
-    }
+//    function isAnagram($string_1, $string_2) : bool
+//    {
+//        $string_1 = strtolower($string_1);
+//        $string_2 = strtolower($string_2);
+//        $string_11 = str_replace("-", "",$string_1);
+//        $string_22 = str_replace("-", "",$string_2);
+//
+//
+//
+//        if (count_chars($string_11, 1) == count_chars($string_22, 1)){
+//
+//            return true;
+//        }
+//        else{
+//            return false;
+//        }
+//
+//    }
 
 }
