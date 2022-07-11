@@ -1,8 +1,6 @@
 <?php
 
 namespace App\Http\Controllers;
-
-use App\Models\wordBase;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -12,7 +10,7 @@ class databaseController extends Controller
 {
 
 
-    function readDictionary($url): array
+    function readWordsToDictionary($url): array
     {
         $file = file($url);
         $wordsDictionary=[];
@@ -32,15 +30,17 @@ class databaseController extends Controller
 
 
     }
-    public function insert(Request $request) {
+    public function insertWordsToDB(Request $request) {
+
         $url = $request->input('dataBaseLink');
-        $wordDictionary = $this->readDictionary($url);
-//        $wordDictionary = readDictionary($url);
+        $wordDictionary = $this->readWordsToDictionary($url);
+
         set_time_limit(0);
+
         foreach ($wordDictionary as $key=>$value){
             $word = $key;
             $word_length = $value;
-            DB::insert('insert into words (word, wordLength) values (?, ?)', [$word, $word_length]);
+            DB::insert('insertWordsToDB into words (word, wordLength) values (?, ?)', [$word, $word_length]);
 
         }
 
@@ -48,9 +48,9 @@ class databaseController extends Controller
 
     }
 
-    function findWordsByLenght($wordLength): ?array{
+    function findWordsByLength($wordLength): ?array{
 
-        $matchingLenghtWords = [];
+        $matchingLengthWords = [];
 
 
         $results = DB::select('select * from words where wordLength = (?)', [$wordLength]);
@@ -62,19 +62,19 @@ class databaseController extends Controller
 
         foreach ($results as $row){
 
-            $matchingLenghtWords[] =$row->word;
+            $matchingLengthWords[] =$row->word;
         }
 
 
 
-        return $matchingLenghtWords;
+        return $matchingLengthWords;
 
     }
 
     function findAnagram(Request $request){
 
         $word = $request->input('word');
-        $matchingLenghtWords = $this->findWordsByLenght(strlen($word));
+        $matchingLenghtWords = $this->findWordsByLength(strlen($word));
         $anagrams = [];
 
 

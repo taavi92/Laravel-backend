@@ -20,6 +20,6 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::post('login', [UserController::class,'login']);
-Route::post('add', [databaseController::class,'insert']);
+
+Route::post('add', [databaseController::class, 'insertWordsToDB']);
 Route::post('find', [databaseController::class,'findAnagram']);
